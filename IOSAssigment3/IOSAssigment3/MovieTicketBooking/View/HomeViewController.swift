@@ -22,6 +22,8 @@ final class HomeViewController: UIViewController {
   private var movies: [Movie] = []
   private var upcomingMovies: [Movie] = []
   private var banner: [Banner] = []
+  private var bannerTimer: Timer?
+  private var currentBannerIndex = 0
 
   
   // MARK: - Lifecycle
@@ -38,10 +40,16 @@ final class HomeViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     navigationController?.setNavigationBarHidden(false, animated: false)
+    startBannerTimer()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
+    stopBannerTimer()
+  }
+    
+  deinit {
+    stopBannerTimer()
   }
   
   // MARK: - Functions
@@ -184,48 +192,62 @@ final class HomeViewController: UIViewController {
     moviesVC.upcomingMovies = upcomingMovies
     navigationController?.pushViewController(moviesVC, animated: true)
   }
+    private func startBannerTimer() {
+        bannerTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(scrollToNextBanner), userInfo: nil, repeats: true)
+    }
+
+    private func stopBannerTimer() {
+        bannerTimer?.invalidate()
+        bannerTimer = nil
+    }
+
+    @objc private func scrollToNextBanner() {
+        guard !banner.isEmpty else { return }
+        currentBannerIndex = (currentBannerIndex + 1) % banner.count
+        let indexPath = IndexPath(item: currentBannerIndex, section: 0)
+        moviesCV.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+      }
 }
 
+
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
-        //this month
-        if collectionView == upcomingMoviesCV{
-            return movies.count
-        }else if collectionView == nextMonthMoviesCV{ //next month
-            return upcomingMovies.count
-        }else{ //banner
-            return banner.count
-        }
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+      switch collectionView {
+      case upcomingMoviesCV:
+        return movies.count
+      case nextMonthMoviesCV:
+        return upcomingMovies.count
+      default:
+        return banner.count
+      }
     }
   
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == upcomingMoviesCV { // This month
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UpcomingMoviePosterCVC", for: indexPath) as! UpcomingMoviePosterCVC
-            cell.setupCell(movies[indexPath.row])
-            return cell
-        } else if collectionView == nextMonthMoviesCV { // Next month
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UpcomingMoviePosterCVC", for: indexPath) as! UpcomingMoviePosterCVC
-            cell.setupCell(upcomingMovies[indexPath.row])
-            return cell
-        } else { // Banner
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MoviePosterCVC", for: indexPath) as! MoviePosterCVC
-            cell.setupCell(with: banner[indexPath.row])
-            return cell
+      switch collectionView {
+      case upcomingMoviesCV:
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UpcomingMoviePosterCVC", for: indexPath) as? UpcomingMoviePosterCVC else { return UICollectionViewCell() }
+        cell.setupCell(movies[indexPath.row])
+        return cell
+      case nextMonthMoviesCV:
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "UpcomingMoviePosterCVC", for: indexPath) as? UpcomingMoviePosterCVC else { return UICollectionViewCell() }
+        cell.setupCell(upcomingMovies[indexPath.row])
+        return cell
+      default:
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "MoviePosterCVC", for: indexPath) as? MoviePosterCVC else { return UICollectionViewCell() }
+        cell.setupCell(with: banner[indexPath.row])
+        return cell
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        // Handle selection for movie collections only, not for banners
         if collectionView == upcomingMoviesCV {
-            let movie = movies[indexPath.row]
-            let movieDetailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailVC") as! MovieDetailViewController
-            movieDetailVC.movie = movie
-            navigationController?.pushViewController(movieDetailVC, animated: true)
+          let movieDetailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailVC") as! MovieDetailViewController
+          movieDetailVC.movie = movies[indexPath.row]
+          navigationController?.pushViewController(movieDetailVC, animated: true)
         } else if collectionView == nextMonthMoviesCV {
-            let movie = upcomingMovies[indexPath.row]
-            let movieDetailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailVC") as! MovieDetailViewController
-            movieDetailVC.movie = movie
-            navigationController?.pushViewController(movieDetailVC, animated: true)
+          let movieDetailVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MovieDetailVC") as! MovieDetailViewController
+          movieDetailVC.movie = upcomingMovies[indexPath.row]
+          navigationController?.pushViewController(movieDetailVC, animated: true)
         }
     }
-}
+  }
