@@ -142,7 +142,7 @@ extension Movie {
         return dateFromString("07/05/2024")
     }
 
-    static func screeningDatesForTheGodFather() -> [Date] {
+    static func screeningDatesForTheGodfather() -> [Date] {
         return dateFromString("14/05/2024")
     }
 

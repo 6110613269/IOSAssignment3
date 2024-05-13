@@ -77,10 +77,10 @@ final class HomeViewController: UIViewController {
             cast: ["John Travolta", "Uma Thurman", "Samuel L. Jackson"]
           ),
           Movie(
-            image: "TheGodFather",
-            title: "The God Father",
+            image: "TheGodfather",
+            title: "The Godfather",
             filmReview: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
-            screeningDates: Movie.screeningDatesForTheGodFather(),
+            screeningDates: Movie.screeningDatesForTheGodfather(),
             duration: 175,
             genres: [Genre.Crime, Genre.Drama],
             contentRating: ContentRating.R,
