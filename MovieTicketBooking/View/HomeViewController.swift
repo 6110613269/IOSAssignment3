@@ -77,7 +77,7 @@ final class HomeViewController: UIViewController {
             cast: ["John Travolta", "Uma Thurman", "Samuel L. Jackson"]
           ),
           Movie(
-            image: "TheGodfather",
+            image: "TheGodFather",
             title: "The Godfather",
             filmReview: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire to his reluctant son.",
             screeningDates: Movie.screeningDatesForTheGodfather(),
