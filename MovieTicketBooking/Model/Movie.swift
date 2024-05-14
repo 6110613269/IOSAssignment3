@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+// Enum representing different movie genres
 enum Genre: String, Codable {
   case Action
   case Comedy
@@ -21,6 +22,7 @@ enum Genre: String, Codable {
 
 }
 
+// Enum representing movie content ratings
 enum ContentRating: String, Codable {
   case PG
   case PG13 = "PG-13"
@@ -32,6 +34,8 @@ struct Banner {
     var title: String
 }
 
+// Struct representing a movie. Contains properties for image filename, title, synopsis, screening dates, duration, genres, content rating, director, and cast.
+// The screeningDate property holds an array of Date objects representing screening dates.
 struct Movie: Codable {
   var imageName: String
   var title: String
@@ -117,19 +121,23 @@ extension String {
   
 }
 
+// This extension provides static functions to retrieve movie screening dates.
 extension Movie {
-    private static func dateFormatter() -> DateFormatter {
+  // Private function to create and configure a date formatter
+  private static func dateFormatter() -> DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy"
         return formatter
     }
-
-    private static func dateFromString(_ dateString: String) -> [Date] {
+  
+  // Function to convert a date string to an array of Date objects
+  private static func dateFromString(_ dateString: String) -> [Date] {
         guard let date = dateFormatter().date(from: dateString) else { return [] }
         return [date]
     }
-
-    static func screeningDatesForPulpFiction() -> [Date] {
+  
+  // Static functions to retrieve screening dates for each movie
+  static func screeningDatesForPulpFiction() -> [Date] {
         return dateFromString("07/05/2024")
     }
 
