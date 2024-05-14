@@ -10,25 +10,25 @@ import UIKit
 
 // Enum representing different movie genres
 enum Genre: String, Codable {
-  case Action
-  case Comedy
-  case Drama
-  case Fantasy
-  case Horror
-  case Romance
-  case Thriller
-  case Crime
-  case SciFi = "Sci-Fi"
-
+    case Action
+    case Comedy
+    case Drama
+    case Fantasy
+    case Horror
+    case Romance
+    case Thriller
+    case Crime
+    case SciFi = "Sci-Fi"
 }
 
 // Enum representing movie content ratings
 enum ContentRating: String, Codable {
-  case PG
-  case PG13 = "PG-13"
-  case R
+    case PG
+    case PG13 = "PG-13"
+    case R
 }
 
+// Banner
 struct Banner {
     var image: String
     var title: String
@@ -37,17 +37,17 @@ struct Banner {
 // Struct representing a movie. Contains properties for image filename, title, synopsis, screening dates, duration, genres, content rating, director, and cast.
 // The screeningDate property holds an array of Date objects representing screening dates.
 struct Movie: Codable {
-  var imageName: String
-  var title: String
-  var synopsis: String
-  var screeningDate: [Date]
-  var duration: Int
-  var genres: [Genre]
-  var contentRating: ContentRating
-  var director: String
-  var cast: [String]
-
-  init(
+    var imageName: String
+    var title: String
+    var synopsis: String
+    var screeningDate: [Date]
+    var duration: Int
+    var genres: [Genre]
+    var contentRating: ContentRating
+    var director: String
+    var cast: [String]
+    
+    init(
     image imageAssetName: String,
     title: String,
     filmReview: String,
@@ -57,8 +57,9 @@ struct Movie: Codable {
     contentRating: ContentRating,
     director: String,
     cast: [String]
-  ) {
-
+    )
+    {
+      
     self.imageName = imageAssetName
     self.title = title
     self.synopsis = filmReview
@@ -70,74 +71,77 @@ struct Movie: Codable {
     self.cast = cast
   }
 
+  // Checks if two Movie instances are identical based on title, director, and screening dates.
     func isIdentical(_ other: Movie) -> Bool {
         return title == other.title &&
-               director == other.director &&
-               screeningDate.elementsEqual(other.screeningDate)
+        director == other.director &&
+        screeningDate.elementsEqual(other.screeningDate)
+    }
+  
+  // Converts duration in minutes to a string representation in hours and minutes.
+    func durationString() -> String {
+        let hour: Int = Int(floor(Double(duration) / 60))
+        let minute: Int = duration - hour * 60
+        let hourStr = hour > 1 ? "Hours" : "Hour"
+        return "\(hour) \(hourStr) \(minute > 0 ? "\(minute) Minutes" : "")"
     }
 
-  func durationString() -> String {
-    let hour: Int = Int(floor(Double(duration) / 60))
-    let minute: Int = duration - hour * 60
-    let hourStr = hour > 1 ? "Hours" : "Hour"
-    return "\(hour) \(hourStr) \(minute > 0 ? "\(minute) Minutes" : "")"
-  }
-
+  // Converts an array of screening dates to a string with a formatted date.
     func releaseDateString() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy"
         return screeningDate.map { formatter.string(from: $0) }.joined(separator: ", ")
     }
-
-  func genresString() -> String {
-    var Genres: [String] = []
-    for i in 0..<genres.count {
-      Genres.append(genres[i].rawValue)
-    }
-    return Genres.joined(separator: ", ")
-  }
   
-    func castList() -> NSAttributedString {
-            let castString = NSAttributedString(
-                string: "Cast: ",
-                attributes: [.font: UIFont.systemFont(ofSize: 17, weight: .medium)]
-            )
-            let list = NSAttributedString(
-                string: cast.joined(separator: ", "),
-                attributes: [.font: UIFont.systemFont(ofSize: 17)]
-            )
-            let castList = NSMutableAttributedString()
-            castList.append(castString)
-            castList.append(list)
-            return castList
+// Converts an array of Genre enums to a string of genre names.
+    func genresString() -> String {
+        var Genres: [String] = []
+        for i in 0..<genres.count {
+            Genres.append(genres[i].rawValue)
         }
+        return Genres.joined(separator: ", ")
+    }
+  
+  // Creates an attributed string representing the movie's cast list.
+    func castList() -> NSAttributedString {
+        let castString = NSAttributedString(
+            string: "Cast: ",
+            attributes: [.font: UIFont.systemFont(ofSize: 17, weight: .medium)]
+        )
+        let list = NSAttributedString(
+            string: cast.joined(separator: ", "),
+            attributes: [.font: UIFont.systemFont(ofSize: 17)]
+        )
+        let castList = NSMutableAttributedString()
+        castList.append(castString)
+        castList.append(list)
+        return castList
+    }
 }
 
+// Loads an image from the asset catalog using the string as the image name.
 extension String {
-  
-  func loadImageString() -> UIImage? {
-    UIImage(named: self)
-  }
-  
+    func loadImageString() -> UIImage? {
+        UIImage(named: self)
+    }
 }
 
 // This extension provides static functions to retrieve movie screening dates.
 extension Movie {
-  // Private function to create and configure a date formatter
-  private static func dateFormatter() -> DateFormatter {
+    private static func dateFormatter() -> DateFormatter {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy"
         return formatter
     }
   
   // Function to convert a date string to an array of Date objects
-  private static func dateFromString(_ dateString: String) -> [Date] {
+    private static func dateFromString(_ dateString: String) -> [Date] {
         guard let date = dateFormatter().date(from: dateString) else { return [] }
         return [date]
     }
   
-  // Static functions to retrieve screening dates for each movie
-  static func screeningDatesForPulpFiction() -> [Date] {
+  // Static functions screening dates for each movie
+    static func screeningDatesForPulpFiction() -> [Date] {
         return dateFromString("07/05/2024")
     }
 
