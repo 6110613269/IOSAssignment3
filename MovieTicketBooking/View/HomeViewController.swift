@@ -62,7 +62,7 @@ final class HomeViewController: UIViewController {
             ]
         }
     
-  // รายละเอียดหนังเดือน May
+  //This month movies data handling
     private func loadMovies() {
         movies = [
           Movie(
@@ -111,7 +111,7 @@ final class HomeViewController: UIViewController {
           ),
         ]
       }
-    // รายละเอียดหนังเดือน June
+    //Next month movies data handling
       private func loadUpcomingMovies() {
         upcomingMovies = [
           Movie(
