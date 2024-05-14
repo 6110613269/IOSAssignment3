@@ -3,7 +3,7 @@
 //  MovieTicketBooking
 //
 //  Created by Natthapat Liawpairoj on 28/4/2567 BE.
-//
+// 
 
 import Foundation
 import UIKit
@@ -125,7 +125,7 @@ extension String {
   
 }
 
-//สร้างวันที่ให้หนังแต่ละเรื่อง
+//Movie screening date
 extension Movie {
     private static func dateFormatter() -> DateFormatter {
         let formatter = DateFormatter()
