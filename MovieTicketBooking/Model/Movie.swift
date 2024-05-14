@@ -26,7 +26,6 @@ enum ContentRating: String, Codable {
   case PG13 = "PG-13"
   case R
 }
-//อันนี้มีแก้
 
 struct Banner {
     var image: String
@@ -43,7 +42,6 @@ struct Movie: Codable {
   var contentRating: ContentRating
   var director: String
   var cast: [String]
-    //อันนี้มีแก้
 
   init(
     image imageAssetName: String,
@@ -56,9 +54,7 @@ struct Movie: Codable {
     director: String,
     cast: [String]
   ) {
-      //อันนี้มีแก้
 
-    //        self.image = UIImage(named: imageAssetName) ?? UIImage(systemName: "photo")!
     self.imageName = imageAssetName
     self.title = title
     self.synopsis = filmReview
@@ -69,7 +65,6 @@ struct Movie: Codable {
     self.director = director
     self.cast = cast
   }
-    //อันนี้มีแก้
 
     func isIdentical(_ other: Movie) -> Bool {
         return title == other.title &&
@@ -77,21 +72,19 @@ struct Movie: Codable {
                screeningDate.elementsEqual(other.screeningDate)
     }
 
-    // แก้hourStr
   func durationString() -> String {
     let hour: Int = Int(floor(Double(duration) / 60))
     let minute: Int = duration - hour * 60
     let hourStr = hour > 1 ? "Hours" : "Hour"
     return "\(hour) \(hourStr) \(minute > 0 ? "\(minute) Minutes" : "")"
   }
-    //อันนี้มีแก้
 
     func releaseDateString() -> String {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy"
         return screeningDate.map { formatter.string(from: $0) }.joined(separator: ", ")
     }
-  //เห็นหนังเรามีgenreไม่เกิน3อยู่แล้วเลยแก้ให้convertจากarrayเป็นstringเฉยๆ
+
   func genresString() -> String {
     var Genres: [String] = []
     for i in 0..<genres.count {
@@ -116,7 +109,6 @@ struct Movie: Codable {
         }
 }
 
-
 extension String {
   
   func loadImageString() -> UIImage? {
@@ -125,7 +117,6 @@ extension String {
   
 }
 
-//Movie screening date
 extension Movie {
     private static func dateFormatter() -> DateFormatter {
         let formatter = DateFormatter()
