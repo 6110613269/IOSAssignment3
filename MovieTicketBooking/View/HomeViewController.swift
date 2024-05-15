@@ -53,7 +53,8 @@ final class HomeViewController: UIViewController {
   }
   
   // MARK: - Functions
-    
+
+    // Load photos for banner at the top.
     private func loadBanner() {
             banner = [
                 Banner(image: "banner1", title: "Movie Trivia Night"),
@@ -62,7 +63,7 @@ final class HomeViewController: UIViewController {
             ]
         }
     
-  //This month movies data handling
+    // Load data for movies showing this month.
     private func loadMovies() {
         movies = [
           Movie(
@@ -111,7 +112,8 @@ final class HomeViewController: UIViewController {
           ),
         ]
       }
-    //Next month movies data handling
+  
+      // Load data for movies showing next month.
       private func loadUpcomingMovies() {
         upcomingMovies = [
           Movie(
@@ -184,7 +186,8 @@ final class HomeViewController: UIViewController {
     upcomingMoviesHeader.configureView(title: "This Month", onPressed: {self.goToMovies(ShowType.NowShowing)})
       nextMonthMoviesHeader.configureView(title: "Next Month", onPressed: {self.goToMovies(ShowType.Upcoming)})
   }
-  
+
+  // Navigate to the See All Movies page, showing a list of movies based on the selected type.
   private func goToMovies(_ showType: ShowType = ShowType.NowShowing) {
     let moviesVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "MoviesVC") as! MoviesViewController
     moviesVC.showType = showType
@@ -192,6 +195,8 @@ final class HomeViewController: UIViewController {
     moviesVC.upcomingMovies = upcomingMovies
     navigationController?.pushViewController(moviesVC, animated: true)
   }
+
+    // Set a timer to scroll banners every 3 seconds.
     private func startBannerTimer() {
         bannerTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(scrollToNextBanner), userInfo: nil, repeats: true)
     }
@@ -201,6 +206,7 @@ final class HomeViewController: UIViewController {
         bannerTimer = nil
     }
 
+    // Scroll to the next banner in the sequence.
     @objc private func scrollToNextBanner() {
         guard !banner.isEmpty else { return }
         currentBannerIndex = (currentBannerIndex + 1) % banner.count
