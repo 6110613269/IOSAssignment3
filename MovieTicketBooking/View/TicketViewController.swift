@@ -39,7 +39,8 @@ final class TicketViewController: UIViewController {
   }
   
   // MARK: - Functions
-  
+
+  // Fill the ticket with movie details.
   private func fillTicket() {
     guard let ticket = ticket else { return }
     titleLabel.text = ticket.movie.title
@@ -48,17 +49,19 @@ final class TicketViewController: UIViewController {
     timeLabel.text = ticket.session.time
     priceLabel.text = String(ticket.price)
       if !self.isOnlyShowDetailTicket{
-          saveTicket(ticket: ticket)
+          saveTicket(ticket: ticket) // Save the ticket if it's a new booking.
       }
   }
-    
+
+    // Adjust UI elements based on whether it shows a new booking or an existing ticket.
     func setUI(){
         if isOnlyShowDetailTicket{
             self.goHomeButton.setTitle("GO BACK", for: .normal)
         }
         self.congratsView.isHidden = isOnlyShowDetailTicket
     }
-  
+
+  // Save the ticket to UserDefaults.
   private func saveTicket(ticket: Ticket) {
     let userDefault = UserDefaults.standard
     if let savedTicketData = userDefault.data(forKey: "savedTicket"),
@@ -73,7 +76,8 @@ final class TicketViewController: UIViewController {
   }
   
   // MARK: - Outlets
-  
+
+  // Perform action by pressing the "Go Back" button.
   @IBAction private func btnGoHome_TUI(_ sender: Any) {
       if isOnlyShowDetailTicket{
           self.navigationController?.popViewController(animated: true)
