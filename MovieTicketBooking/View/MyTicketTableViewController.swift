@@ -19,7 +19,8 @@ class MyTicketTableViewController: UITableViewController {
   override func viewDidLayoutSubviews() {
     super.viewDidLayoutSubviews()
   }
-  
+
+  // Load tickets from UserDefaults.
   private func loadTicket() {
     let userDefault = UserDefaults.standard
     if let savedTicketData = userDefault.data(forKey: "savedTicket"),
