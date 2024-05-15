@@ -45,7 +45,8 @@ final class MovieDetailViewController: UIViewController {
     }
         
     // MARK: - Functions
-    
+
+    // Fill the movie details.
     private func fillMovieInformation() {
         guard let movie else { return }
         imageIV.image = movie.imageName.loadImageString()
@@ -60,7 +61,8 @@ final class MovieDetailViewController: UIViewController {
     }
         
     // MARK: - Actions
-    
+
+    // Navigate to Reservation page when pressing "Book Tickets" button.
     @IBAction private func btnBookTickets_TUI(_ sender: Any) {
         guard let movie else { return }
         let reservationVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ReservationVC") as! ReservationViewController
