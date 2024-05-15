@@ -40,18 +40,17 @@ final class ReservationViewController: UIViewController {
   
   // MARK: - Functions Movie Schedule
   
-    // Movie Showtime Change to 18.30 followed the FAP Schedule
-   
+    // Determine available movie days based on FAP club's schedules.
     private func movieDays() {
         var screeningDates: [Date]
 
-        // Safely unwrap the optional movie
+        // Safely unwrap the optional movie.
         guard let movie = self.movie else {
             print("No movie selected")
             return
         }
 
-        // Retrieve screening dates based on the provided movie title
+        // Retrieve screening dates based on the movie title.
         switch movie.title {
         case "Pulp Fiction":
             screeningDates = Movie.screeningDatesForPulpFiction()
@@ -74,22 +73,17 @@ final class ReservationViewController: UIViewController {
             return
         }
 
-        // Debugging: print screening dates to ensure correctness
+        // Debugging: print screening dates to ensure correctness.
         print("Screening dates for \(movie.title): \(screeningDates)")
 
-        // Create Session objects for each screening date
+        // Create session for each screening date.
         sessionDays = screeningDates.map { Session(date: $0) }
 
-        // Set the selected session to the first one
+        // Set the selected session to the first one.
         selectedSession = sessionDays.first
     }
 
-
-
-
-
-
-  // Movie Showtime Change to 18.30 followed the FAP Schedule
+    // Set a fixed showtime for all movie sessions to follow the FAP club's schedule.
     private func movieShowtime() {
         let hour = 18  // 6 PM
         let minute = 30
@@ -98,7 +92,7 @@ final class ReservationViewController: UIViewController {
         sessionTimes.append(time)
     }
 
-  
+  // Fill movie details.
   private func fillMovieInfo() {
     guard let movie = movie else { return }
     imageIV.image = movie.imageName.loadImageString()
@@ -110,6 +104,7 @@ final class ReservationViewController: UIViewController {
   
   // MARK: - Actions
   
+  // Navigate to the seat selection page when pressing "Choose Seats" button.
   @IBAction private func btnChooseSeats_TUI(_ sender: Any) {
     guard let selectedTime = selectedTime else {
       self.showToast("Please choose a session")
