@@ -16,8 +16,10 @@ class SessionDayCVC: UICollectionViewCell {
     @IBOutlet weak private var dayLabel: UILabel!
         
     // MARK: Functions
-    
+    // Configures the cell with session data and appearance
     func setupCell(session: Session,selected selectedCell: Bool) {
+        
+        // Define colors
         let bgColor: UIColor = selectedCell ? UIColor(named: "PrimaryColor") ?? UIColor.black : UIColor.white
         let textColor: UIColor = selectedCell ? UIColor.white : UIColor.black
         backgroundUIView.backgroundColor = bgColor
