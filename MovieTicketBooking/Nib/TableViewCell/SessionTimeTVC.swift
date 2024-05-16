@@ -10,12 +10,12 @@ import UIKit
 class SessionTimeTVC: UITableViewCell {
     
     // MARK: - Outlets
-    
     @IBOutlet weak private var timeLabel: UILabel!
     @IBOutlet weak private var selectedIV: UIImageView!
     
     // MARK: - Functions
     
+    // Configures the cell with session time
     func setupCell(time: String) {
         timeLabel.text = time
     }
