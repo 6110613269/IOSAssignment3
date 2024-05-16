@@ -31,7 +31,7 @@ final class MovieSlideHeader: UIView {
     }
     
     // MARK: - Functions
-    
+    //Load the view from a nib file
     private func commonInit() {
         guard let view = self.loadViewFromNib(nibName: "MovieSlideHeader") else { return }
         view.frame = self.bounds
@@ -45,7 +45,7 @@ final class MovieSlideHeader: UIView {
     }
     
     // MARK: - Actions
-    
+    // See all BTN action
     @IBAction func btnSeeAll_TUI(_ sender: Any) {
         onPressed?()
     }
